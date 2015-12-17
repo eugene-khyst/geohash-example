@@ -51,8 +51,8 @@ public class JdbcGeoPointRepository implements GeoPointRepository {
             + "    FROM GEO_POINT GP \n"
             + "   WHERE GP.LATITUDE_DEG BETWEEN ? AND ? \n"
             + "     AND GP.LONGITUDE_DEG BETWEEN ? AND ? \n"
-            + "GROUP BY SUBSTRING(GP.GEOHASH FROM 1 FOR ?), \n"
-            + "         GP.COUNTRY_CODE";
+            + "GROUP BY GEOHASH_PREFIX, \n"
+            + "         COUNTRY_CODE";
 
     @Inject
     private DataSource dataSource;
@@ -80,7 +80,6 @@ public class JdbcGeoPointRepository implements GeoPointRepository {
             ps.setDouble(3, northEast.getLatitude());
             ps.setDouble(4, southWest.getLongitude());
             ps.setDouble(5, northEast.getLongitude());
-            ps.setInt(6, geohashLength);
             ResultSet rs = ps.executeQuery();
 
             List<GeoCluster> results = new ArrayList<>();
