@@ -29,9 +29,11 @@ public class ZoomGeohashLengthStrategy implements GeohashLengthStrategy {
     public static final int MAX_ZOOM_LEVEL = 18;
     public static final int MIN_GEOHASH_LENGTH = 1;
     public static final int MAX_GEOHASH_LENGTH = 10;
-    
+
+    private static final double COEFICIENT = Math.pow(MAX_GEOHASH_LENGTH, 1.0 / MAX_ZOOM_LEVEL);
+
     @Override
     public int getGeohashLength(Coordinates southWest, Coordinates northEast, int zoom) {
-        return MIN_GEOHASH_LENGTH + ((MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL) * zoom) / (MAX_GEOHASH_LENGTH - MIN_GEOHASH_LENGTH);
+        return (int) Math.pow(COEFICIENT, zoom);
     }
 }
