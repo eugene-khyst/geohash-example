@@ -86,9 +86,8 @@ public class JdbcGeoPointRepository implements GeoPointRepository {
                 double longitude = rs.getDouble("LONGITUDE_DEG");
                 long quantity = rs.getLong("QUANTITY");
                 String geohashPrefix = rs.getString("GEOHASH_PREFIX");
-                String countryCode = rs.getString("COUNTRY_CODE");
 
-                results.add(new GeoCluster(new Coordinates(latitude, longitude), quantity, geohashPrefix, countryCode));
+                results.add(new GeoCluster(new Coordinates(latitude, longitude), quantity, geohashPrefix, null));
             }
             return results;
         } catch (SQLException e) {
