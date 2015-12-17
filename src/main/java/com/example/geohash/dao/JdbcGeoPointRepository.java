@@ -46,11 +46,13 @@ public class JdbcGeoPointRepository implements GeoPointRepository {
             = "  SELECT AVG(GP.LATITUDE_DEG) AS LATITUDE_DEG, \n"
             + "         AVG(GP.LONGITUDE_DEG) AS LONGITUDE_DEG, \n"
             + "         COUNT(*) AS QUANTITY, \n"
-            + "         SUBSTRING(GP.GEOHASH FROM 1 FOR ?) AS GEOHASH_PREFIX \n"
+            + "         SUBSTRING(GP.GEOHASH FROM 1 FOR ?) AS GEOHASH_PREFIX, \n"
+            + "         GP.COUNTRY_CODE AS COUNTRY_CODE \n"
             + "    FROM GEO_POINT GP \n"
             + "   WHERE GP.LATITUDE_DEG BETWEEN ? AND ? \n"
             + "     AND GP.LONGITUDE_DEG BETWEEN ? AND ? \n"
-            + "GROUP BY GEOHASH_PREFIX";
+            + "GROUP BY GEOHASH_PREFIX, \n"
+            + "         COUNTRY_CODE";
 
     @Inject
     private DataSource dataSource;
@@ -86,8 +88,9 @@ public class JdbcGeoPointRepository implements GeoPointRepository {
                 double longitude = rs.getDouble("LONGITUDE_DEG");
                 long quantity = rs.getLong("QUANTITY");
                 String geohashPrefix = rs.getString("GEOHASH_PREFIX");
+                String countryCode = rs.getString("COUNTRY_CODE");
 
-                results.add(new GeoCluster(new Coordinates(latitude, longitude), quantity, geohashPrefix, null));
+                results.add(new GeoCluster(new Coordinates(latitude, longitude), quantity, geohashPrefix, countryCode));
             }
             return results;
         } catch (SQLException e) {
