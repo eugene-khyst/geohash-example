@@ -46,13 +46,11 @@ public class JdbcGeoPointRepository implements GeoPointRepository {
             = "  SELECT AVG(GP.LATITUDE_DEG) AS LATITUDE_DEG, \n"
             + "         AVG(GP.LONGITUDE_DEG) AS LONGITUDE_DEG, \n"
             + "         COUNT(*) AS QUANTITY, \n"
-            + "         SUBSTRING(GP.GEOHASH FROM 1 FOR ?) AS GEOHASH_PREFIX, \n"
-            + "         GP.COUNTRY_CODE AS COUNTRY_CODE \n"
+            + "         SUBSTRING(GP.GEOHASH FROM 1 FOR ?) AS GEOHASH_PREFIX \n"
             + "    FROM GEO_POINT GP \n"
             + "   WHERE GP.LATITUDE_DEG BETWEEN ? AND ? \n"
             + "     AND GP.LONGITUDE_DEG BETWEEN ? AND ? \n"
-            + "GROUP BY GEOHASH_PREFIX, \n"
-            + "         COUNTRY_CODE";
+            + "GROUP BY GEOHASH_PREFIX";
 
     @Inject
     private DataSource dataSource;
