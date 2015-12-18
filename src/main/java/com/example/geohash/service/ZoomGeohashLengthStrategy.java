@@ -30,10 +30,11 @@ public class ZoomGeohashLengthStrategy implements GeohashLengthStrategy {
     public static final int MIN_GEOHASH_LENGTH = 1;
     public static final int MAX_GEOHASH_LENGTH = 10;
 
-    private static final double COEFICIENT = Math.pow(MAX_GEOHASH_LENGTH, 1.0 / MAX_ZOOM_LEVEL);
+    //private static final double COEFICIENT = Math.pow(MAX_GEOHASH_LENGTH, 1.0 / MAX_ZOOM_LEVEL);
 
     @Override
     public int getGeohashLength(Coordinates southWest, Coordinates northEast, int zoom) {
-        return (int) Math.round(Math.pow(COEFICIENT, zoom));
+        return (int) Math.exp(Math.log(MAX_GEOHASH_LENGTH) / MAX_ZOOM_LEVEL * zoom);
+        //return (int) Math.round(Math.pow(COEFICIENT, zoom));
     }
 }
