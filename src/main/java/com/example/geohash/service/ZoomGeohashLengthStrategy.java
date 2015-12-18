@@ -39,7 +39,7 @@ public class ZoomGeohashLengthStrategy implements GeohashLengthStrategy {
     public int getGeohashLength(Coordinates southWest, Coordinates northEast, int zoom) {
         double a = minGeohashLength / Math.exp(minZoom / (maxZoom - minZoom) * Math.log(maxGeohashLength / minGeohashLength));
         double b = Math.log(maxGeohashLength / minGeohashLength) / (maxZoom - minZoom);
-        return (int) Math.max(minGeohashLength, Math.min(Math.round(a * Math.exp(b * zoom)), maxGeohashLength));
+        return (int) Math.max(minGeohashLength, Math.min(a * Math.exp(b * zoom), maxGeohashLength));
     }
 
     public int getMinGeohashLength() {
