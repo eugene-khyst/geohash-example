@@ -34,6 +34,6 @@ public class ZoomGeohashLengthStrategy implements GeohashLengthStrategy {
 
     @Override
     public int getGeohashLength(Coordinates southWest, Coordinates northEast, int zoom) {
-        return (int) Math.pow(COEFICIENT, zoom);
+        return (int) Math.round(Math.pow(COEFICIENT, zoom));
     }
 }
