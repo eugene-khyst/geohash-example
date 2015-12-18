@@ -28,7 +28,7 @@ public class ZoomGeohashLengthStrategy implements GeohashLengthStrategy {
     public static final int MIN_ZOOM_LEVEL = 0;
     public static final int MAX_ZOOM_LEVEL = 18;
     public static final int MIN_GEOHASH_LENGTH = 1;
-    public static final int MAX_GEOHASH_LENGTH = 11;
+    public static final int MAX_GEOHASH_LENGTH = 12;
 
     @Override
     public int getGeohashLength(Coordinates southWest, Coordinates northEast, int zoom) {
