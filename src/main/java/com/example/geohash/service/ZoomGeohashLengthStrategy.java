@@ -28,7 +28,7 @@ public class ZoomGeohashLengthStrategy implements GeohashLengthStrategy {
     public static final int DEFAULT_MIN_GEOHASH_LENGTH = 1;
     public static final int DEFAULT_MAX_GEOHASH_LENGTH = 12;
     public static final int DEFAULT_MIN_ZOOM = 0;
-    public static final int DEFAULT_MAX_ZOOM = 16;
+    public static final int DEFAULT_MAX_ZOOM = 17;
 
     private int minGeohashLength = DEFAULT_MIN_GEOHASH_LENGTH;
     private int maxGeohashLength = DEFAULT_MAX_GEOHASH_LENGTH;
