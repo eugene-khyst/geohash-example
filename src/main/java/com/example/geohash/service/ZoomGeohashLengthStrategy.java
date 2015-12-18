@@ -25,13 +25,52 @@ import javax.inject.Singleton;
 @Singleton
 public class ZoomGeohashLengthStrategy implements GeohashLengthStrategy {
 
-    public static final int MIN_ZOOM_LEVEL = 0;
-    public static final int MAX_ZOOM_LEVEL = 18;
-    public static final int MIN_GEOHASH_LENGTH = 1;
-    public static final int MAX_GEOHASH_LENGTH = 12;
+    public static final int DEFAULT_MIN_GEOHASH_LENGTH = 1;
+    public static final int DEFAULT_MAX_GEOHASH_LENGTH = 12;
+    public static final int DEFAULT_MIN_ZOOM = 0;
+    public static final int DEFAULT_MAX_ZOOM = 18;
+
+    private int minGeohashLength = DEFAULT_MIN_GEOHASH_LENGTH;
+    private int maxGeohashLength = DEFAULT_MAX_GEOHASH_LENGTH;
+    private int minZoom = DEFAULT_MIN_ZOOM;
+    private int maxZoom = DEFAULT_MAX_ZOOM;
 
     @Override
     public int getGeohashLength(Coordinates southWest, Coordinates northEast, int zoom) {
-        return (int) Math.exp(Math.log(MAX_GEOHASH_LENGTH) / MAX_ZOOM_LEVEL * zoom);
+        double a = minGeohashLength / Math.exp(minZoom / (maxZoom - minZoom) * Math.log(maxGeohashLength / minGeohashLength));
+        double b = Math.log(maxGeohashLength / minGeohashLength) / (maxZoom - minZoom);
+        return (int) Math.max(minGeohashLength, Math.min(Math.round(a * Math.exp(b * zoom)), maxGeohashLength));
+    }
+
+    public int getMinGeohashLength() {
+        return minGeohashLength;
+    }
+
+    public void setMinGeohashLength(int minGeohashLength) {
+        this.minGeohashLength = minGeohashLength;
+    }
+
+    public int getMaxGeohashLength() {
+        return maxGeohashLength;
+    }
+
+    public void setMaxGeohashLength(int maxGeohashLength) {
+        this.maxGeohashLength = maxGeohashLength;
+    }
+
+    public int getMinZoom() {
+        return minZoom;
+    }
+
+    public void setMinZoom(int minZoom) {
+        this.minZoom = minZoom;
+    }
+
+    public int getMaxZoom() {
+        return maxZoom;
+    }
+
+    public void setMaxZoom(int maxZoom) {
+        this.maxZoom = maxZoom;
     }
 }
