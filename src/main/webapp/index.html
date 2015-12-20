@@ -12,10 +12,16 @@
                 margin: 0 auto;
             }
 
+            #map {
+                position: relative; 
+                margin-top: 50px; 
+                height: 500px;
+            }
+            
             .leaflet-div-icon {
                 background-color: #ec4949;
                 box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-                line-height: 36px;
+                line-height: 30px;
                 text-align: center;
                 font-weight: bold;
                 color: #ffffff;
@@ -52,7 +58,7 @@
                         $.each(geoClusters, function (index, geoCluster) {
                             L.marker([geoCluster.coordinates.latitude, geoCluster.coordinates.longitude], {
                                 icon: L.divIcon({
-                                    iconSize: [36, 36], html: geoCluster.quantity
+                                    iconSize: [30, 30], html: geoCluster.quantity
                                 })
                             }).addTo(markers);
                         });
@@ -103,7 +109,7 @@
         <!-- /Yandex.Metrika counter -->
         
         <div class="container">
-            <div id="map" style="position: relative; margin-top: 50px; height: 500px;"></div>
+            <div id="map"></div>
         </div>
     </body>
 </html>
