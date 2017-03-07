@@ -1,0 +1,3 @@
+db/migration/InitialMigrationGenerator.class
+com/example/geocluster/geohash/strategy/ZoomGeohashLengthStrategyTest.class
+com/example/geocluster/model/GeohashUtilsTest.class

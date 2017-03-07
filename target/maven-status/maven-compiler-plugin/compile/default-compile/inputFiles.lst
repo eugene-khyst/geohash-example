@@ -1,0 +1,11 @@
+/home/evgeniy/Projects/geohash-example/src/main/java/com/example/geocluster/geohash/strategy/GeohashLengthStrategy.java
+/home/evgeniy/Projects/geohash-example/src/main/java/com/example/geocluster/geohash/strategy/ZoomGeohashLengthStrategy.java
+/home/evgeniy/Projects/geohash-example/src/main/java/com/example/geocluster/geohash/GeohashUtils.java
+/home/evgeniy/Projects/geohash-example/src/main/java/com/example/geocluster/repository/JdbcGeoPointRepository.java
+/home/evgeniy/Projects/geohash-example/src/main/java/com/example/geocluster/config/JdbcResourceProducer.java
+/home/evgeniy/Projects/geohash-example/src/main/java/com/example/geocluster/repository/GeoPointRepository.java
+/home/evgeniy/Projects/geohash-example/src/main/java/com/example/geocluster/config/CORSFilter.java
+/home/evgeniy/Projects/geohash-example/src/main/java/com/example/geocluster/model/Coordinates.java
+/home/evgeniy/Projects/geohash-example/src/main/java/com/example/geocluster/GeoclusterExampleApplication.java
+/home/evgeniy/Projects/geohash-example/src/main/java/com/example/geocluster/model/GeoPoint.java
+/home/evgeniy/Projects/geohash-example/src/main/java/com/example/geocluster/model/GeoCluster.java
