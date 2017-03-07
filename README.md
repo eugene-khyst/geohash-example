@@ -11,6 +11,3 @@ When zoomed cluster is splitted into separate points or other clusters.
 This example shows how to implement server-side clustering of geo points on a map using Geohash.
 
 To get more details read about [Geohash encoding and decoding algorithm](http://developer-should-know.tumblr.com/post/87283491372/geohash-encoding-and-decoding-algorithm) and [server-side clustering of geo points using Geohash](http://developer-should-know.tumblr.com/post/90338187947/server-side-clustering-of-geo-points-using-geohash).
-
-Interactive example is available at http://geohash-evgeniykhist.rhcloud.com/.
-
