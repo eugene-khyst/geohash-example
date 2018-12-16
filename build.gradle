@@ -1,0 +1,44 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.1.RELEASE'
+        junitVersion = '5.3.2'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'geohash-example'
+version = '1.0.0-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-jdbc')
+    implementation('org.springframework.boot:spring-boot-starter-cache')
+    implementation('org.flywaydb:flyway-core')
+    runtimeOnly('org.postgresql:postgresql')
+    compileOnly('org.projectlombok:lombok')
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'junit', module: 'junit'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
