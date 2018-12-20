@@ -9,6 +9,7 @@ import geohashexample.model.RealtyPriceStatistics;
 import geohashexample.repository.CityRepository;
 import geohashexample.repository.RealtyRepository;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
@@ -57,14 +58,16 @@ public class RealtyService {
 
   public List<RealtyCluster> findRealtyClustersWithinBounds(
       double southWestLat, double southWestLon, double northEastLat, double northEastLon,
-      int zoom) {
+      double zoom) {
     int precision = zoomToGeohashPrecisionConverter.toGeohashPrecision(zoom);
     return realtyRepository.findRealtyClustersWithinBounds(
         southWestLat, southWestLon, northEastLat, northEastLon, precision);
   }
 
   @Cacheable(REALTY_PRICE_STDDEV_CACHE_NAME)
-  public List<RealtyPriceStatistics> findAllRealtyPriceStatistics() {
-    return realtyRepository.findAllRealtyPriceStatistics();
+  public Map<Integer, RealtyPriceStatistics> findAllRealtyPriceStatistics() {
+    return realtyRepository.findAllRealtyPriceStatistics()
+        .stream()
+        .collect(toMap(RealtyPriceStatistics::getCityId, Function.identity()));
   }
 }

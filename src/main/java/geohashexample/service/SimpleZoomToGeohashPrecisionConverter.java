@@ -30,12 +30,13 @@ public class SimpleZoomToGeohashPrecisionConverter implements ZoomToGeohashPreci
   private static final int LAST_ZOOM = 20;
 
   @Override
-  public int toGeohashPrecision(int zoom) {
-    if (zoom < FIRST_ZOOM) {
-      zoom = FIRST_ZOOM;
-    } else if (zoom > LAST_ZOOM) {
-      zoom = LAST_ZOOM;
+  public int toGeohashPrecision(double zoom) {
+    int intZoom = (int) zoom;
+    if (intZoom < FIRST_ZOOM) {
+      intZoom = FIRST_ZOOM;
+    } else if (intZoom > LAST_ZOOM) {
+      intZoom = LAST_ZOOM;
     }
-    return ZOOM_TO_GEOHASH_PRECISION_MAP.get(zoom);
+    return ZOOM_TO_GEOHASH_PRECISION_MAP.get(intZoom);
   }
 }

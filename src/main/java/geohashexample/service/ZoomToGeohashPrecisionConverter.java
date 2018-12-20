@@ -2,5 +2,5 @@ package geohashexample.service;
 
 public interface ZoomToGeohashPrecisionConverter {
 
-  int toGeohashPrecision(int zoom);
+  int toGeohashPrecision(double zoom);
 }
