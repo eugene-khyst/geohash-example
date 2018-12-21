@@ -9,7 +9,7 @@ import org.springframework.data.relational.core.mapping.Column;
 @NoArgsConstructor
 public class Realty {
 
-  public static final int GEOHASH_PRECISION = 12;
+  public static final int GEOHASH_PRECISION = 10;
 
   @Id
   @Column("realty_id")
