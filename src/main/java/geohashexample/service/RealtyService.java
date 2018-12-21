@@ -25,14 +25,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class RealtyService {
 
   private static final String REALTY_PRICE_STDDEV_CACHE_NAME = "realty-price-stddev";
-  private static final String REALTY_COUNT_CACHE_NAME = "realty-count";
 
   private final RealtyDataProvider realtyDataProvider;
   private final CityRepository cityRepository;
   private final RealtyRepository realtyRepository;
   private final ZoomToGeohashPrecisionConverter zoomToGeohashPrecisionConverter;
 
-  @CacheEvict({REALTY_PRICE_STDDEV_CACHE_NAME, REALTY_COUNT_CACHE_NAME})
+  @CacheEvict(REALTY_PRICE_STDDEV_CACHE_NAME)
   @Transactional
   public void reimportRealty() {
     log.info("Starting realty reimport...");
@@ -70,10 +69,5 @@ public class RealtyService {
     return realtyRepository.findAllRealtyPriceStatistics()
         .stream()
         .collect(toMap(RealtyPriceStatistics::getCityId, Function.identity()));
-  }
-
-  @Cacheable(REALTY_COUNT_CACHE_NAME)
-  public long countAllRealtyObjects() {
-    return realtyRepository.count();
   }
 }

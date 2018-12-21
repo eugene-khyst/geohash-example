@@ -10,9 +10,6 @@ public class RealtyPriceStatistics {
   @JsonIgnore
   private final int cityId;
 
-  @JsonProperty("qnt")
-  private final int quantity;
-
   @JsonProperty("min")
   private final double minimum;
 

@@ -10,9 +10,6 @@ import lombok.Value;
 @Value
 public class RealtyClusterResponse {
 
-  @JsonProperty("qnt")
-  private final long totalQuantity;
-
   @JsonProperty("stats")
   private final Map<Integer, RealtyPriceStatistics> priceStatistics;
 

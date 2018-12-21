@@ -26,8 +26,6 @@ public class RealtyController {
       @RequestParam("ne_lat") double northEastLat,
       @RequestParam("ne_lng") double northEastLon,
       @RequestParam("zoom") double zoom) {
-    var totalQuantity = realtyService.countAllRealtyObjects();
-
     var realty = realtyService.findRealtyClustersWithinBounds(
         southWestLat, southWestLon, northEastLat, northEastLon, zoom);
 
@@ -42,14 +40,6 @@ public class RealtyController {
         .filter(entry -> cityIds.contains(entry.getKey()))
         .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-    return new RealtyClusterResponse(totalQuantity, filteredRealtyPriceStatistics, realty);
-  }
-
-  public static void main(String[] args) {
-    for (int x = 3; x <= 18; x++) {
-      double a = 10 * Math.pow(10, 1.0 / 5);
-      double b = -Math.log(10) / 15;
-      System.out.println(a * Math.exp(b * x));
-    }
+    return new RealtyClusterResponse(filteredRealtyPriceStatistics, realty);
   }
 }

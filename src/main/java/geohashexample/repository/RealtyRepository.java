@@ -30,7 +30,6 @@ public interface RealtyRepository extends CrudRepository<Realty, Long> {
 
   @Query("SELECT"
       + " CITY_ID,"
-      + " COUNT(*) quantity,"
       + " MIN(PRICE) minimum,"
       + " MAX(PRICE) maximum,"
       + " AVG(PRICE) mean,"

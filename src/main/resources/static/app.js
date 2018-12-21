@@ -20,7 +20,7 @@ info.onAdd = function (map) {
 
 info.update = function (cluster) {
   if (cluster) {
-    this._div.innerHTML = '<p>Quantity: <b>' + cluster.qnt + '</b></p><p>Average Price: ' + '<b>$' + cluster.avgPrice.toFixed(0) + '</b></p>';
+    this._div.innerHTML = '<p>Quantity: <b>' + cluster.qnt + '</b></p><p>Average price: ' + '<b>$' + cluster.avgPrice.toFixed(0) + '</b></p>';
   } else {
     this._div.innerHTML = '<p>Hover over a realty</p>';
   }
@@ -31,14 +31,16 @@ info.addTo(map);
 legend.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'info legend'),
       colors = [
-        {color: '#f00', label: 'Low Price'},
-        {color: '#ff0', label: 'Middle Price'},
-        {color: '#0f0', label: 'High Price'}
+        {color: clusterColor(0), label: 'Low price'},
+        {color: clusterColor(0.5), label: 'Middle price'},
+        {color: clusterColor(1), label: 'High price'}
       ];
+
+  div.innerHTML = '<p><b>Average price in a city</b></p>'
 
   for (var i = 0; i < colors.length; i++) {
       div.innerHTML +=
-          '<p><i style="background:' + colors[i].color + '"></i> &ndash; ' + colors[i].label + '</p>';
+          '<p><i style="background:' + colors[i].color + '"></i> ' + colors[i].label + '</p>';
   }
 
   return div;
@@ -55,7 +57,7 @@ function resetRealtyInfo(e) {
   info.update();
 }
 
-function gradient(position, colorStops) {
+function gradient(position, colorStops, alpha) {
   var i, cs1, cs2, c1, c2, r, g, b;
   position = Math.min(Math.max(position, colorStops[0].pos), colorStops[colorStops.length - 1].pos);
   for (i = 0; i < colorStops.length - 1; i++) {
@@ -67,13 +69,21 @@ function gradient(position, colorStops) {
       r = Math.floor(cs1.r * c1 + cs2.r * c2);
       g = Math.floor(cs1.g * c1 + cs2.g * c2);
       b = Math.floor(cs1.b * c1 + cs2.b * c2);
-      return 'rgb(' + [r, g, b].join(',') + ')';
+      return 'rgb(' + [r, g, b, alpha].join(',') + ')';
     }
   }
   throw 'Color stops for position ' + position + ' are not found';
 }
 
-function priceCoefficient(stat, cluster) {
+function clusterColor(position) {
+  return gradient(position, [
+    {pos: 0, r: 0, g: 255, b: 0},
+    {pos: 0.5, r: 255, g: 255, b: 0},
+    {pos: 1, r: 255, g: 0, b: 0}
+  ], 0.5);
+}
+
+function priceCoefficient(cluster, stat) {
   var min = Math.max(stat.min, stat.avg - 3 * stat.sd),
       max = Math.min(stat.max, stat.avg + 3 * stat.sd),
       avg = stat.avg,
@@ -89,26 +99,10 @@ function priceCoefficient(stat, cluster) {
   }
 }
 
-function clusterColor(cluster, stat) {
-  return gradient(priceCoefficient(stat, cluster), [
-    {pos: 0, r: 0, g: 255, b: 0},
-    {pos: 0.5, r: 255, g: 255, b: 0},
-    {pos: 1, r: 255, g: 0, b: 0}
-  ]);
-}
-
-function clusterRadius(cluster, stat, totalQuantity, zoom) {
+function clusterRadius(cluster, min, max) {
   var precision = cluster.geohash.length,
-      minPrecision = 3,
-      maxPrecision = 7,
-      //a*maxPrecision+b=1, a*minPrecision+b=0
-      a = 1 / (maxPrecision - minPrecision),
-      b = - minPrecision / (maxPrecision - minPrecision),
-      k = Math.max(0, Math.min(a * precision + b, 1)),
-      s = 5,
-      r = 5;
-  return r * Math.pow(2, Math.min(maxZoom - 2 * (precision + 1), 11))
-   * (k * (1 + (s - 1) * cluster.qnt / stat.qnt) + (1 - k) * (1 + (s - 1) * stat.qnt / totalQuantity));
+      k = 1 + 2 * (cluster.qnt - min + 1) / (max - min + 1);
+  return 5 * Math.pow(2, Math.min(maxZoom - 2 * (precision + 1), 11)) * k;
 }
 
 function drawRealty(e) {
@@ -126,28 +120,35 @@ function drawRealty(e) {
   })
   .then(function (response) {
     var newRealtyLayer = L.layerGroup(),
-        totalQuantity = response.data.qnt;
+        totalQuantity = response.data.qnt,
+        clusters = response.data.realty;
 
-    response.data.realty.forEach(function (cluster) {
-      var stat = response.data.stats[cluster.cityId],
-          circle = L.circle([cluster.lat, cluster.lng], {
-            color: '#405C78',
-            weight: 1,
-            fillColor: clusterColor(cluster, stat),
-            fillOpacity: 0.5,
-            radius: clusterRadius(cluster, stat, totalQuantity, zoom)
-          })
-          .addTo(newRealtyLayer);
+    if (clusters.length > 0) {
+      var quantities = clusters.map(function(cluster) { return cluster.qnt; }),
+          min = Math.min.apply(null, quantities),
+          max = Math.max.apply(null, quantities);
 
-          circle.properties = {
-            cluster: cluster
-          };
+      clusters.forEach(function (cluster) {
+        var stat = response.data.stats[cluster.cityId],
+            circle = L.circle([cluster.lat, cluster.lng], {
+              color: '#405C78',
+              weight: 1,
+              fillColor: clusterColor(priceCoefficient(cluster, stat)),
+              fillOpacity: 1,
+              radius: clusterRadius(cluster, min, max)
+            })
+            .addTo(newRealtyLayer);
 
-          circle.on({
-            mouseover: updateRealtyInfo,
-            mouseout: resetRealtyInfo
-          });
-    });
+            circle.properties = {
+              cluster: cluster
+            };
+
+            circle.on({
+              mouseover: updateRealtyInfo,
+              mouseout: resetRealtyInfo
+            });
+      });
+    }
 
     realtyLayer.clearLayers();
     map.removeLayer(realtyLayer);
