@@ -109,7 +109,7 @@ function drawRealty(e) {
   var bounds = map.getBounds(),
       zoom = map.getZoom();
 
-  axios.get('/api/realty', {
+  axios.get('/geohash-example/api/realty', {
     params: {
       sw_lat: bounds.getSouthWest().lat,
       sw_lng: bounds.getSouthWest().lng,
