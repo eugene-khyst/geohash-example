@@ -1,4 +1,4 @@
-# Average Monthly Rents Map - Geohash Example
+# Rents Map - Geohash Example
 
 ## Building
 
