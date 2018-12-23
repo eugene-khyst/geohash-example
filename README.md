@@ -1,54 +1,46 @@
-Server-side Clustering of Geo Points Using Geohash Example
-==========================================================
+# Average Monthly Rents Map - Geohash Example
 
-When there are a lot of geo objects on map they are barely distinguishable and merged into one big spot. 
-A lot of memory is used to store geo object coordinates and other data. 
-Displaying map with many points consumes a lot of hardware resources so applications frequently hang.
+## Building
 
-Standard solution to this problem is to union objects located nearby into group called cluster with special icon where the number of elements in cluster is specified.
-When zoomed cluster is splitted into separate points or other clusters.
+### Before You Start
 
-This example shows how to implement server-side clustering of geo points on a map using Geohash.
+To build you will need [Git](http://help.github.com/set-up-git-redirect) and [JDK 11](https://www.oracle.com/technetwork/java/javase/downloads/index.html) or later.
 
-To get more details read about [Geohash encoding and decoding algorithm](http://developer-should-know.tumblr.com/post/87283491372/geohash-encoding-and-decoding-algorithm) and [server-side clustering of geo points using Geohash](http://developer-should-know.tumblr.com/post/90338187947/server-side-clustering-of-geo-points-using-geohash).
+### Get the Source Code
 
-Build
------
-
-```
-mvn clean package -Pdocker
+```bash
+git clone git@github.com:evgeniy-khist/geohash-example.git
+cd geohash-example
 ```
 
-Run
----
+### Build from the Command Line
 
-```
-docker-compose up -d
-```
+This project uses a [Gradle](http://gradle.org/) build.
+The instructions below use [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) from the root of the source tree.
+The wrapper script serves as a cross-platform, self-contained bootstrap mechanism for the build system.
 
-Use
----
+To compile, test and build JAR use:
 
-```
-http://localhost:8000
+```bash
+./gradlew clean build -i
 ```
 
-```
-curl -X GET --header 'Accept: application/json' 'http://localhost:8080/api/geo-cluster?south_west_lat=33.797408767572485&south_west_lon=-19.51171875&north_east_lat=62.14497603754045&north_east_lon=59.58984374999999&zoom=4'
+## Running Locally
+
+To run the project locally use:
+
+```bash
+./gradlew clean bootRun
 ```
 
-```
-curl -X POST --header 'Content-Type: application/x-www-form-urlencoded' --header 'Accept: application/json' -d 'lat=50.4546600&lon=30.5238000&country_code=UA' 'http://localhost:8080/api/geo-point'
-```
+Open URL [http://localhost:8080/geohash-example/](http://localhost:8080/geohash-example/) in a browser.
 
-Swagger
--------
+## Contributing
 
-```
-http://localhost:8080/swagger.json
-```
+This project follows [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
 
-```
-http://localhost:8080/swagger-ui
-```
+You may also be interested to import [intellij-java-google-style.xml](https://github.com/google/styleguide/blob/gh-pages/intellij-java-google-style.xml) IntelliJ IDEA code style XML.
 
+## License
+
+The Geohash Example is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
