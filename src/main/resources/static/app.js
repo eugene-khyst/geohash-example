@@ -20,9 +20,9 @@ info.onAdd = function (map) {
 
 info.update = function (cluster) {
   if (cluster) {
-    this._div.innerHTML = '<p>Quantity: <b>' + cluster.qnt + '</b></p><p>Average price: ' + '<b>$' + cluster.avgPrice.toFixed(0) + '</b></p>';
+    this._div.innerHTML = '<p>Average monthly rent: ' + '<b>$' + cluster.avgPrice.toFixed(0) + '</b></p><p>Number of offers: <b>' + cluster.qnt + '</b></p><p>As of December 2018</p>';
   } else {
-    this._div.innerHTML = '<p>Hover over a realty</p>';
+    this._div.innerHTML = '<p>Hover or tap on the circle</p>';
   }
 };
 
@@ -31,16 +31,20 @@ info.addTo(map);
 legend.onAdd = function (map) {
   var div = L.DomUtil.create('div', 'info legend'),
       colors = [
-        {color: clusterColor(0), label: 'Low price'},
-        {color: clusterColor(0.5), label: 'Middle price'},
-        {color: clusterColor(1), label: 'High price'}
+        clusterColor(0),
+        clusterColor(0.5),
+        clusterColor(1)
+      ],
+      labels = [
+        'Cheap',
+        'Moderate',
+        'Expensive'
       ];
 
-  div.innerHTML = '<p><b>Average price in a city</b></p>'
+  div.innerHTML = '<h4>Average monthly rent</h4><i style="background:linear-gradient(' + colors.join(',') + ')"></i>'
 
-  for (var i = 0; i < colors.length; i++) {
-      div.innerHTML +=
-          '<p><i style="background:' + colors[i].color + '"></i> ' + colors[i].label + '</p>';
+  for (var i = 0; i < labels.length; i++) {
+      div.innerHTML += '<p>' + labels[i] + '</p>';
   }
 
   return div;
@@ -57,7 +61,7 @@ function resetRealtyInfo(e) {
   info.update();
 }
 
-function gradient(position, colorStops, alpha) {
+function gradient(position, colorStops) {
   var i, cs1, cs2, c1, c2, r, g, b;
   position = Math.min(Math.max(position, colorStops[0].pos), colorStops[colorStops.length - 1].pos);
   for (i = 0; i < colorStops.length - 1; i++) {
@@ -69,7 +73,7 @@ function gradient(position, colorStops, alpha) {
       r = Math.floor(cs1.r * c1 + cs2.r * c2);
       g = Math.floor(cs1.g * c1 + cs2.g * c2);
       b = Math.floor(cs1.b * c1 + cs2.b * c2);
-      return 'rgb(' + [r, g, b, alpha].join(',') + ')';
+      return 'rgb(' + [r, g, b].join(',') + ')';
     }
   }
   throw 'Color stops for position ' + position + ' are not found';
@@ -80,7 +84,7 @@ function clusterColor(position) {
     {pos: 0, r: 0, g: 255, b: 0},
     {pos: 0.5, r: 255, g: 255, b: 0},
     {pos: 1, r: 255, g: 0, b: 0}
-  ], 0.5);
+  ]);
 }
 
 function priceCoefficient(cluster, stat) {
@@ -134,7 +138,7 @@ function drawRealty(e) {
               color: '#405C78',
               weight: 1,
               fillColor: clusterColor(priceCoefficient(cluster, stat)),
-              fillOpacity: 1,
+              fillOpacity: 0.5,
               radius: clusterRadius(cluster, min, max)
             })
             .addTo(newRealtyLayer);
