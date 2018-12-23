@@ -22,7 +22,7 @@ info.update = function (cluster) {
   if (cluster) {
     this._div.innerHTML = '<p>Average monthly rent: ' + '<b>$' + cluster.avgPrice.toFixed(0) + '</b></p><p>Number of offers: <b>' + cluster.qnt + '</b></p><p>As of December 2018</p>';
   } else {
-    this._div.innerHTML = '<p>Hover or tap on the circle</p>';
+    this._div.innerHTML = '<p>Hover or tap on a circle</p>';
   }
 };
 
