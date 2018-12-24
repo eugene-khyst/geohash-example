@@ -1,5 +1,7 @@
 # Rents Map - Geohash Example
 
+![Rents Map Screen Capture](demo.gif)
+
 ## Building
 
 ### Before You Start
