@@ -1,7 +1,7 @@
 buildscript {
     ext {
-        springBootVersion = '2.1.1.RELEASE'
-        junitVersion = '5.3.2'
+        springBootVersion = '2.1.+'
+        junitVersion = '5.3.+'
     }
     repositories {
         mavenCentral()
@@ -31,6 +31,9 @@ dependencies {
     implementation('org.flywaydb:flyway-core')
     runtimeOnly('com.h2database:h2')
     compileOnly('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
+    testCompileOnly('org.projectlombok:lombok')
+    testAnnotationProcessor('org.projectlombok:lombok')
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testImplementation("org.junit.jupiter:junit-jupiter-params:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
