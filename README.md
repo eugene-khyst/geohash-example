@@ -1,6 +1,19 @@
 # Rents Map - Geohash Example
 
+The example demonstrates server-side geo clustering using relational database (SQL) and [geohash](https://en.wikipedia.org/wiki/Geohash) index.
+
+The example visualizes on a map apartment rental offers grouping offers located near one another together and representing them using colored circle of variable size.
+The larger the size, the more offers are available in the area.
+Color represents a price. Green - low price, yellow - average price, red - high price.
+When you hover over the circle, detailed information on the number of offers and the price is displayed.
+
+As you zoom in, the clusters are divided into smaller ones. At the maximum zoom level, circles represent individual offers.
+
 ![Rents Map Screen Capture](demo.gif)
+
+## How is it implemented?
+
+Read about the implementation in the [article](https://www.slideshare.net/EvgeniyKhist/serverside-geoclustering-based-on-geohash-full-article) on SlideShare.
 
 ## Building
 
