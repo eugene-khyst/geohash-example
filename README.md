@@ -9,11 +9,13 @@ When you hover over the circle, detailed information on the number of offers and
 
 As you zoom in, the clusters are divided into smaller ones. At the maximum zoom level, circles represent individual offers.
 
-![Rents Map Screen Capture](demo.gif)
+![Rents Map Geohash Example Demo](demo.gif)
 
 ## How is it implemented?
 
 Read about the implementation in the [article](https://www.slideshare.net/EvgeniyKhist/serverside-geoclustering-based-on-geohash-full-article) on SlideShare.
+
+[![The article on SlideShare](slideshare.png)](https://www.slideshare.net/EvgeniyKhist/serverside-geoclustering-based-on-geohash-full-article)
 
 ## Building
 
